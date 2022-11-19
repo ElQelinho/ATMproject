@@ -3,13 +3,18 @@ package ATMproject;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+// FIXME отформатировать отступы
 public class Bank {
 //    bank name
   private String bankName = "Black Empire Bank";
 //  accounts Array
   ArrayList<Account> bankAccounts = new ArrayList<Account>();
+
+  // FIXME необходимость использования zeroAccount нужно устранить, поле zeroAccount удалить. Ибо это костыль.
   final Account zeroAccount = new Account("None","None",00,(byte) 00);
 
+    // FIXME этот метод используется для "инициализации" банка. Это личное дело банка, метод не должен вызываться в других классах
+    //  его вызов следует поместить в конструктор и сделать private.
 //create Account
     public ArrayList<Account> createAccount(String firstUserName,String secondUserName, int cardNum,byte pin) {
         Account bankAccount =new Account(firstUserName,secondUserName,cardNum,pin);
@@ -38,8 +43,13 @@ public class Bank {
         return bankName;
     }
 
+    // FIXME имя метода должно начинаться с малеькой буквы.
+    //  Отформатировать код, поправить отступы.
+    //  Если авторизация не прошла не нужно возвращать zeroAccount, нужно возвращать null или кидать exception.
     public Account Autorization(int card, byte pin){
         for (Account acc : bankAccounts) {
+
+            // FIXME здесь опечатка, используется побитовый оператор "и", а должен использоваться логический "и".
             if ((acc.cardNum == card) & (acc.pin == pin)) {
                 return acc;
                 }

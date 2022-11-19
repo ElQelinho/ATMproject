@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// FIXME ATM это банкомат, следует сделать отдельный класс для main и прочего кода,
+//  который инициализирует состояние программы.
 public class ATM {
     public static void main(String[] args) throws IOException  {
 
@@ -23,8 +25,12 @@ public class ATM {
         mainMenu(bank,sdate,date);
 
     }
+    // FIXME не информативный комментарий надо удалить.
+    //  имя метода должно начинаться с маленькой буквы.
+    //  Отформатировать список формальных параметров.
 //Validate user
     private static boolean ValidateUser(Account autorizedUser, Account zeroAccount,SimpleDateFormat sdate,Date date) {
+        // FIXME эта переменная не нужна, вместо использования переменной нужно возвращать true/false из соответствующей ветки if-а.
         boolean autorization = false;
         if (autorizedUser != zeroAccount) {
             System.out.println();
@@ -41,6 +47,8 @@ public class ATM {
         }
 
     }
+
+    // FIXME этот метод должен быть уровня объекта, а не уровня класса (должен быть не static).
 //    ATM menu
     private static void mainMenu(Bank bank,SimpleDateFormat sdate,Date date) throws IOException{
         boolean validate = false;
@@ -53,6 +61,12 @@ public class ATM {
         do {
             System.out.print("Please, enter the card number: ");
             int enterCard = Integer.parseInt(enterReader.readLine());
+
+            // FIXME способ выхода их цикла путем ввода "заведомо невалидных" данных это "design flaw"
+            //  пользователь банкомата должен иметь более очевидный способ. Тем более, что текущий способ сообщается ему
+            //  только после того, как он провалит авторизацию, до этого, пользователь не имеет возможности узнать,
+            //  как ему завершить работу.
+            //  0000 - это 0, почему коде такая проверка, на что был расчет? Если пользователь введет "0" это условие тоже сработает.
             if (enterCard == 0000) {
                 break;
             }
@@ -68,7 +82,8 @@ public class ATM {
                 System.out.println("For exit input \"0000\" to card number");
                 System.out.println("Please, try again.");
             }
-
+            // FIXME Сравнивать переменную булевого типа с булевыми литералами не нужно, нужно просто использовать
+            //  саму переменную, например: while (validate) {
         } while (validate == false);
     }
 }
