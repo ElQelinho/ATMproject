@@ -29,10 +29,10 @@ public class ATM {
     //  имя метода должно начинаться с маленькой буквы.
     //  Отформатировать список формальных параметров.
 //Validate user
-    private static boolean ValidateUser(Account autorizedUser, Account zeroAccount,SimpleDateFormat sdate,Date date) {
+    private static boolean ValidateUser(Account autorizedUser, SimpleDateFormat sdate,Date date) {
         // FIXME эта переменная не нужна, вместо использования переменной нужно возвращать true/false из соответствующей ветки if-а.
         boolean autorization = false;
-        if (autorizedUser != zeroAccount) {
+        if (autorizedUser != null) {
             System.out.println();
 //            System.out.println("Welcome " + autorizedUser.firstUserName + " " +autorizedUser.secondUserName);
 //            System.out.println("Today is " + sdate.format(date));
@@ -74,7 +74,7 @@ public class ATM {
             byte enterPin = Byte.parseByte(enterReader.readLine());
 
             autorizedUser = bank.Autorization(enterCard,enterPin);
-            validate = ValidateUser(autorizedUser, bank.zeroAccount,sdate,date);
+            validate = ValidateUser(autorizedUser, sdate,date);
             if (validate) {
                 System.out.println("Welcome " + autorizedUser.firstUserName + " " +autorizedUser.secondUserName);
             } else {

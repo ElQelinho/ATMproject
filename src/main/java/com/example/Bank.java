@@ -10,9 +10,6 @@ public class Bank {
 //  accounts Array
   ArrayList<Account> bankAccounts = new ArrayList<Account>();
 
-  // FIXME необходимость использования zeroAccount нужно устранить, поле zeroAccount удалить. Ибо это костыль.
-  final Account zeroAccount = new Account("None","None",00,(byte) 00);
-
     // FIXME этот метод используется для "инициализации" банка. Это личное дело банка, метод не должен вызываться в других классах
     //  его вызов следует поместить в конструктор и сделать private.
 //create Account
@@ -54,7 +51,7 @@ public class Bank {
                 return acc;
                 }
             }
-        return zeroAccount;
+        return null;
         }
 
 }
