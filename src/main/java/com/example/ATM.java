@@ -82,8 +82,6 @@ public class ATM {
                 System.out.println("For exit input \"0000\" to card number");
                 System.out.println("Please, try again.");
             }
-            // FIXME Сравнивать переменную булевого типа с булевыми литералами не нужно, нужно просто использовать
-            //  саму переменную, например: while (validate) {
-        } while (validate == false);
+        } while (!validate);
     }
 }
