@@ -1,4 +1,4 @@
-package ATMproject;
+package com.example;
 
 
 import java.io.BufferedReader;

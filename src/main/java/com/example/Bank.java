@@ -1,4 +1,4 @@
-package ATMproject;
+package com.example;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

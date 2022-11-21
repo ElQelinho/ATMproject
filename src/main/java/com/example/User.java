@@ -1,4 +1,4 @@
-package ATMproject;
+package com.example;
 
 public class User {
     //   first user name
