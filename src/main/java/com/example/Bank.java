@@ -11,6 +11,9 @@ public class Bank {
 
     // FIXME этот метод используется для "инициализации" банка. Это личное дело банка, метод не должен вызываться в других классах
     //  его вызов следует поместить в конструктор и сделать private.
+//    Не согласен. Этот метод используется для создания аккаунта и помещения его в список аккаунтов.
+//    У банкомата должна быть возможность вызова этого метода.
+//    Иначе, будет создано много экземпляров банка, для создания аккаунта. А банк один.
 //create Account
     public ArrayList<Account> createAccount(String firstUserName, String secondUserName, int cardNum, byte pin) {
         Account bankAccount = new Account(firstUserName, secondUserName, cardNum, pin);

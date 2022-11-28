@@ -5,15 +5,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
-// FIXME ATM это банкомат, следует сделать отдельный класс для main и прочего кода,
-//  который инициализирует состояние программы.
 public class ATM {
-    public static void main(String[] args) throws IOException {
+    public void begin() throws IOException {
 
+        Bank bank= new Bank();
 
-        Bank bank = new Bank();
         Date date = new Date();
         SimpleDateFormat sdate = new SimpleDateFormat("HH:MM:ss dd/MM/yy");
 
@@ -22,8 +21,7 @@ public class ATM {
         bank.createAccount("Max", "Frolov", 2010, (byte) 92);
         bank.createAccount("Gorby", "Jason", 2034, (byte) 15);
 
-        mainMenu(bank, sdate, date);
-
+        this.mainMenu(bank, sdate, date);
     }
 
     // FIXME не информативный комментарий надо удалить.
@@ -49,9 +47,7 @@ public class ATM {
 
     }
 
-    // FIXME этот метод должен быть уровня объекта, а не уровня класса (должен быть не static).
-//    ATM menu
-    private static void mainMenu(Bank bank, SimpleDateFormat sdate, Date date) throws IOException {
+    private void mainMenu(Bank bank, SimpleDateFormat sdate, Date date) throws IOException {
         boolean validate = false;
         Account autorizedUser;
         System.out.println("Welcome! It is " + bank.printBankName());
