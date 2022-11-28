@@ -1,7 +1,6 @@
 package com.example;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class Bank {
     //    bank name
@@ -39,14 +38,9 @@ public class Bank {
         return bankName;
     }
 
-    // FIXME имя метода должно начинаться с малеькой буквы.
-    //  Отформатировать код, поправить отступы.
-    //  Если авторизация не прошла не нужно возвращать zeroAccount, нужно возвращать null или кидать exception.
-    public Account Autorization(int card, byte pin) {
+    public Account autorization(int card, byte pin) {
         for (Account acc : bankAccounts) {
-
-            // FIXME здесь опечатка, используется побитовый оператор "и", а должен использоваться логический "и".
-            if ((acc.cardNum == card) & (acc.pin == pin)) {
+            if ((acc.cardNum == card) && (acc.pin == pin)) {
                 return acc;
             }
         }

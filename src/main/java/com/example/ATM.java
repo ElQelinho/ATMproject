@@ -5,7 +5,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class ATM {
@@ -28,21 +27,18 @@ public class ATM {
     //  имя метода должно начинаться с маленькой буквы.
     //  Отформатировать список формальных параметров.
 //Validate user
-    private static boolean ValidateUser(Account autorizedUser, SimpleDateFormat sdate, Date date) {
-        // FIXME эта переменная не нужна, вместо использования переменной нужно возвращать true/false из соответствующей ветки if-а.
-        boolean autorization = false;
+    private static boolean validateUser(Account autorizedUser, SimpleDateFormat sdate, Date date) {
         if (autorizedUser != null) {
             System.out.println();
 //            System.out.println("Welcome " + autorizedUser.firstUserName + " " +autorizedUser.secondUserName);
 //            System.out.println("Today is " + sdate.format(date));
-            autorization = true;
-            return autorization;
+            return true;
         } else {
             System.out.println();
 //            System.out.println("Wrong card number or pin!");
 //            System.out.println("Please, try again.");
 
-            return autorization;
+            return false;
         }
 
     }
@@ -70,8 +66,8 @@ public class ATM {
             System.out.print("Enter the pin: ");
             byte enterPin = Byte.parseByte(enterReader.readLine());
 
-            autorizedUser = bank.Autorization(enterCard, enterPin);
-            validate = ValidateUser(autorizedUser, sdate, date);
+            autorizedUser = bank.autorization(enterCard, enterPin);
+            validate = validateUser(autorizedUser, sdate, date);
             if (validate) {
                 System.out.println("Welcome " + autorizedUser.firstUserName + " " + autorizedUser.secondUserName);
             } else {
