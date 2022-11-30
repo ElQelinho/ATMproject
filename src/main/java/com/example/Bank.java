@@ -1,18 +1,22 @@
 package com.example;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class Bank {
     //    bank name
-    private String bankName = "Black Empire Bank";
+    private final String bankName = "Black Empire Bank";
     //  accounts Array
-    ArrayList<Account> bankAccounts = new ArrayList<Account>();
+    ArrayList<Account> bankAccounts = new ArrayList<>();
 
-    // FIXME этот метод используется для "инициализации" банка. Это личное дело банка, метод не должен вызываться в других классах
-    //  его вызов следует поместить в конструктор и сделать private.
-//create Account
-    public ArrayList<Account> createAccount(String firstUserName, String secondUserName, int cardNum, byte pin) {
+    ATM atm;
+
+    public Bank() {
+        this.createAccount("Lora", "Palmer", 2024, (byte) 7);
+        this.createAccount("Max", "Frolov", 2010, (byte) 92);
+        this.createAccount("Gorby", "Jason", 2034, (byte) 15);
+    }
+
+    private ArrayList<Account> createAccount(String firstUserName, String secondUserName, int cardNum, byte pin) {
         Account bankAccount = new Account(firstUserName, secondUserName, cardNum, pin);
         bankAccounts.add(bankAccount);
         return bankAccounts;
@@ -36,20 +40,19 @@ public class Bank {
         return bankName;
     }
 
-    // FIXME имя метода должно начинаться с малеькой буквы.
-    //  Отформатировать код, поправить отступы.
-    //  Если авторизация не прошла не нужно возвращать zeroAccount, нужно возвращать null или кидать exception.
-    public Account Autorization(int card, byte pin) {
+    public Account autorization(int card, byte pin) {
         for (Account acc : bankAccounts) {
-
-            // FIXME здесь опечатка, используется побитовый оператор "и", а должен использоваться логический "и".
-            if ((acc.cardNum == card) & (acc.pin == pin)) {
+            if ((acc.cardNum == card) && (acc.pin == pin)) {
                 return acc;
             }
         }
         return null;
     }
 
+    public void register(ATM atm) {
+        this.atm = atm;
+        atm.setBank(this);
+    }
 }
 
 
