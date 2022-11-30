@@ -1,12 +1,14 @@
 package com.example;
-import com.example.ATM;
 
 import java.io.IOException;
 
-public class start {
+public class Main {
     public static void main(String[] args) throws IOException {
-
+        Bank bank = new Bank();
         ATM atm = new ATM();
-        atm.begin();
+
+        bank.register(atm);
+
+        atm.mainMenu(bank);
     }
 }
