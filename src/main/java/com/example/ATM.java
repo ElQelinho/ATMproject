@@ -15,10 +15,6 @@ public class ATM {
     }
 
     public void mainMenu(Bank bank) throws IOException {
-        boolean validate = false;
-        Account autorizedUser;
-        Date date = new Date();
-        SimpleDateFormat sdate = new SimpleDateFormat("HH:MM:ss dd/MM/yy");
         int menuChoice;
         System.out.println();
         System.out.println("Welcome! It is " + bank.printBankName());
@@ -26,7 +22,7 @@ public class ATM {
         BufferedReader enterReader = new BufferedReader(new InputStreamReader(System.in));
 
 
-        System.out.println("Enter a num for choose you're option:");
+        System.out.println("Enter a number to choose your option:");
         System.out.println("Press 1 for autorization.");
         System.out.println("Press 2 for exit.");
         System.out.print("Enter: ");
@@ -35,6 +31,7 @@ public class ATM {
         switch (menuChoice) {
             case 1:
                 autorizingUser(enterReader);
+                break;
             case 2:
                 break;
 
@@ -48,7 +45,6 @@ public class ATM {
 
         int enterCardNumber;
         byte enterPin;
-        String checkCardNum;
         Account acc;
         do {
             System.out.println();
@@ -62,14 +58,40 @@ public class ATM {
             }
             System.out.print("Please enter the pin: ");
             enterPin = Byte.parseByte(enterReader.readLine());
-            acc = bank.autorization(enterCardNumber, (byte) enterPin);
-
+            acc = bank.autorization(enterCardNumber,enterPin);
             if (validateUser(acc)) {
-//                bank.userMenu(acc);
-//                break;
+                userMenu(acc, enterReader);
             } else {
                 System.out.println("Wrong card number or pin");
             }
         } while (true);
     }
+    private void userMenu(Account acc,BufferedReader enterReader) throws IOException {
+        int chooseMenu;
+        SimpleDateFormat sdate = new SimpleDateFormat("HH:mm:ss dd/MM/yy");
+        Date date = new Date();
+        do {
+            System.out.println();
+            System.out.println("Hello, " + acc.firstUserName + " " + acc.secondUserName);
+            System.out.println("Today is " + sdate.format(date));
+            System.out.println("Enter a number to choose your option: ");
+            System.out.println("Press 1 for view your balance.");
+            System.out.println("Press 2 for transaction");
+            System.out.println("Press 3 for exit to main menu");
+            System.out.print("Enter: ");
+            chooseMenu = Integer.parseInt(enterReader.readLine());
+            switch (chooseMenu) {
+                case 1:
+                    System.out.println("You have: $" + acc.balance);
+                    break;
+                case 2:
+//                transaction
+//                    break;
+                case 3:
+                    mainMenu(bank);
+                    break;
+            }
+        } while (true);
+    }
 }
+
