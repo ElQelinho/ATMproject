@@ -15,44 +15,83 @@ public class ATM {
     }
 
     public void mainMenu(Bank bank) throws IOException {
-        boolean validate = false;
-        Account autorizedUser;
-        Date date = new Date();
-        SimpleDateFormat sdate = new SimpleDateFormat("HH:MM:ss dd/MM/yy");
-
+        int menuChoice;
+        System.out.println();
         System.out.println("Welcome! It is " + bank.printBankName());
-        System.out.println("Let's begin the autorization");
 
         BufferedReader enterReader = new BufferedReader(new InputStreamReader(System.in));
 
-        do {
-            System.out.print("Please, enter the card number: ");
-            int enterCard = Integer.parseInt(enterReader.readLine());
 
-            // FIXME способ выхода их цикла путем ввода "заведомо невалидных" данных это "design flaw"
-            //  пользователь банкомата должен иметь более очевидный способ. Тем более, что текущий способ сообщается ему
-            //  только после того, как он провалит авторизацию, до этого, пользователь не имеет возможности узнать,
-            //  как ему завершить работу.
-            //  0000 - это 0, почему коде такая проверка, на что был расчет? Если пользователь введет "0" это условие тоже сработает.
-            if (enterCard == 0000) {
+        System.out.println("Enter a number to choose your option:");
+        System.out.println("Press 1 for autorization.");
+        System.out.println("Press 2 for exit.");
+        System.out.print("Enter: ");
+        menuChoice = Integer.parseInt(enterReader.readLine());
+
+        switch (menuChoice) {
+            case 1:
+                autorizingUser(enterReader);
                 break;
-            }
-            System.out.print("Enter the pin: ");
-            byte enterPin = Byte.parseByte(enterReader.readLine());
+            case 2:
+                break;
 
-            autorizedUser = bank.autorization(enterCard, enterPin);
-            validate = validateUser(autorizedUser);
-            if (validate) {
-                System.out.println("Welcome " + autorizedUser.firstUserName + " " + autorizedUser.secondUserName);
-            } else {
-                System.out.println("Wrong card number or pin!");
-                System.out.println("For exit input \"0000\" to card number");
-                System.out.println("Please, try again.");
-            }
-        } while(!validate);
+        }
     }
 
     public void setBank(Bank bank) {
         this.bank = bank;
     }
+    private void autorizingUser(BufferedReader enterReader) throws IOException {
+
+        int enterCardNumber;
+        byte enterPin;
+        Account acc;
+        do {
+            System.out.println();
+            System.out.println("This is autorization menu. For exit to main menu enter 1 to card number.");
+
+            System.out.print("Please enter the cardnumber: ");
+            enterCardNumber = Integer.parseInt(enterReader.readLine());
+            if (enterCardNumber == 1) {
+                mainMenu(bank);
+                break;
+            }
+            System.out.print("Please enter the pin: ");
+            enterPin = Byte.parseByte(enterReader.readLine());
+            acc = bank.autorization(enterCardNumber,enterPin);
+            if (validateUser(acc)) {
+                userMenu(acc, enterReader);
+            } else {
+                System.out.println("Wrong card number or pin");
+            }
+        } while (true);
+    }
+    private void userMenu(Account acc,BufferedReader enterReader) throws IOException {
+        int chooseMenu;
+        SimpleDateFormat sdate = new SimpleDateFormat("HH:mm:ss dd/MM/yy");
+        Date date = new Date();
+        do {
+            System.out.println();
+            System.out.println("Hello, " + acc.firstUserName + " " + acc.secondUserName);
+            System.out.println("Today is " + sdate.format(date));
+            System.out.println("Enter a number to choose your option: ");
+            System.out.println("Press 1 for view your balance.");
+            System.out.println("Press 2 for transaction");
+            System.out.println("Press 3 for exit to main menu");
+            System.out.print("Enter: ");
+            chooseMenu = Integer.parseInt(enterReader.readLine());
+            switch (chooseMenu) {
+                case 1:
+                    System.out.println("You have: $" + acc.balance);
+                    break;
+                case 2:
+//                transaction
+//                    break;
+                case 3:
+                    mainMenu(bank);
+                    break;
+            }
+        } while (true);
+    }
 }
+
