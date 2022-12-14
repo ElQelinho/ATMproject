@@ -40,7 +40,7 @@ public class Bank {
         return bankName;
     }
 
-    public Account autorization(int card, byte pin) {
+    public Account authorization(int card, byte pin) {
         for (Account acc : bankAccounts) {
             if ((acc.cardNum == card) && (acc.pin == pin)) {
                 return acc;
