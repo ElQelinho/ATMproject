@@ -12,13 +12,33 @@ public class Account {
         balance = BigDecimal.ZERO;
     }
 
-    String firstUserName;
+    private String firstUserName;
 
-    String secondUserName;
+    private String secondUserName;
 
-    int cardNum;
+    private int cardNum;
 
-    byte pin;
+    private byte pin;
 
     BigDecimal balance;
+
+    public String getFirstUserName() {
+        return firstUserName;
+    }
+
+    public String getSecondUserName() {
+        return secondUserName;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public int getCardNum() {
+        return cardNum;
+    }
+
+    public byte getPin() {
+        return pin;
+    }
 }
