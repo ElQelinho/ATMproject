@@ -25,7 +25,7 @@ public class Auth implements Menu {
             System.out.print("Please enter the cardnumber: ");
             enterCardNumber = Integer.parseInt(enterReader.readLine());
         } catch (IOException exception) {
-            String errorMessage = "";
+            String errorMessage = exception.getMessage();
             return new Error(errorMessage, () -> new Auth());
         }
 
@@ -33,7 +33,7 @@ public class Auth implements Menu {
             System.out.print("Please enter the pin: ");
             enterPin = Byte.parseByte(enterReader.readLine());
         } catch (IOException exception) {
-            String errorMessage = "";
+            String errorMessage = exception.getMessage();
             return new Error(errorMessage, () -> new Auth());
         }
 
@@ -49,7 +49,7 @@ public class Auth implements Menu {
             try {
                 exitChoose = enterReader.readLine();
             } catch (IOException exception) {
-                String errorMessage = "";
+                String errorMessage = exception.getMessage();
                 return new Error(errorMessage, () -> new Auth());
             }
 
