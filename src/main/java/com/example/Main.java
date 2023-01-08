@@ -9,6 +9,6 @@ public class Main {
 
         bank.register(atm);
 
-        atm.mainMenu(bank);
+        atm.mainMenu();
     }
 }

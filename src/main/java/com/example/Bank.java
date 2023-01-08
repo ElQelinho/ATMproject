@@ -26,10 +26,10 @@ public class Bank {
     public void printAccounts() {
         for (Account acc : bankAccounts) {
             System.out.println("-----------------------------------");
-            System.out.print("Name: " + acc.firstUserName + " ");
-            System.out.println(acc.secondUserName);
-            System.out.println("Card number: " + acc.cardNum);
-            System.out.println("Pin code: " + acc.pin);
+            System.out.print("Name: " + acc.getFirstUserName() + " ");
+            System.out.println(acc.getSecondUserName());
+            System.out.println("Card number: " + acc.getCardNum());
+            System.out.println("Pin code: " + acc.getPin());
             System.out.println("Cash: $" + acc.balance);
             System.out.println("-----------------------------------");
         }
@@ -40,9 +40,9 @@ public class Bank {
         return bankName;
     }
 
-    public Account autorization(int card, byte pin) {
+    public Account fetchAccount(int card, byte pin) {
         for (Account acc : bankAccounts) {
-            if ((acc.cardNum == card) && (acc.pin == pin)) {
+            if ((acc.getCardNum() == card) && (acc.getPin() == pin)) {
                 return acc;
             }
         }
