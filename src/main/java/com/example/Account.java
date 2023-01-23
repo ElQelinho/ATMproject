@@ -20,7 +20,7 @@ public class Account {
 
     private byte pin;
 
-    BigDecimal balance;
+    private BigDecimal balance;
 
     public String getFirstUserName() {
         return firstUserName;
@@ -32,6 +32,10 @@ public class Account {
 
     public BigDecimal getBalance() {
         return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public int getCardNum() {

@@ -44,7 +44,7 @@ public class Auth implements Menu {
             return new UserMenu(menuContext);
         } else {
             System.out.println("Wrong Card Number or pin.");
-            System.out.println("Do you want to try again? (y/N):");
+            System.out.print("Do you want to try again? (y/N):");
 
             try {
                 exitChoose = enterReader.readLine();

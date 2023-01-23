@@ -1,19 +1,15 @@
 package com.example;
 
 
-import com.example.menu.Auth;
-import com.example.menu.MainMenu;
-import com.example.menu.Menu;
-import com.example.menu.UserMenu;
+import com.example.menu.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import java.math.BigDecimal;
 
 
 public class ATM {
     private Bank bank;
+    private MenuContext returnContext;
+    Account returnAccount;
     public boolean validateUser(Account autorizedUser) {
         return autorizedUser != null;
     }
@@ -40,5 +36,20 @@ public class ATM {
         } else {
             return null;
         }
+    }
+
+    public MenuContext incomeBalance(BigDecimal income, MenuContext userContext) {
+        returnContext = bank.incomeBalance(income, userContext);
+        return returnContext;
+    }
+
+    public MenuContext stealBalance(BigDecimal steal, MenuContext userContext) {
+        returnContext = bank.stealBalance(steal,userContext);
+        return returnContext;
+    }
+
+    public MenuContext transferBalance(int cardNumber, BigDecimal money,MenuContext userContext) {
+        returnContext = bank.transferAccount(cardNumber,money,userContext);
+        return returnContext;
     }
 }
