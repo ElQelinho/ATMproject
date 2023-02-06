@@ -26,7 +26,7 @@ public class Auth implements Menu {
             enterCardNumber = Integer.parseInt(enterReader.readLine());
         } catch (IOException exception) {
             String errorMessage = exception.getMessage();
-            return new Error(errorMessage, () -> new Auth());
+            return new ErrorMenu(errorMessage, Auth::new);
         }
 
         try {
@@ -34,7 +34,7 @@ public class Auth implements Menu {
             enterPin = Byte.parseByte(enterReader.readLine());
         } catch (IOException exception) {
             String errorMessage = exception.getMessage();
-            return new Error(errorMessage, () -> new Auth());
+            return new ErrorMenu(errorMessage, Auth::new);
         }
 
         userAccount = atm.getAccount(enterCardNumber, enterPin);
@@ -50,7 +50,7 @@ public class Auth implements Menu {
                 exitChoose = enterReader.readLine();
             } catch (IOException exception) {
                 String errorMessage = exception.getMessage();
-                return new Error(errorMessage, () -> new Auth());
+                return new ErrorMenu(errorMessage, Auth::new);
             }
 
             if (exitChoose.equals("y")) {
@@ -59,7 +59,7 @@ public class Auth implements Menu {
                 return new Exit();
             } else {
                 String errorMessage = "Wrong argument";
-                return new Error(errorMessage, () -> new Auth());
+                return new ErrorMenu(errorMessage, Auth::new);
             }
 
         }

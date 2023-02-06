@@ -1,9 +1,9 @@
 package com.example;
 
-import com.example.menu.MenuContext;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Bank {
     //    bank name
@@ -12,41 +12,30 @@ public class Bank {
     ArrayList<Account> bankAccounts = new ArrayList<>();
 
     ATM atm;
-
-    BigDecimal newBalance;
-
-    BigDecimal clientBalance;
-
-    MenuContext menuContext;
-
-    Account userAccount;
-
-    Account clientAccount;
     public Bank() {
         this.createAccount("Lora", "Palmer", 2024, (byte) 7);
         this.createAccount("Max", "Frolov", 2010, (byte) 92);
         this.createAccount("Gorby", "Jason", 2034, (byte) 15);
     }
 
-    private ArrayList<Account> createAccount(String firstUserName, String secondUserName, int cardNum, byte pin) {
+    private void createAccount(String firstUserName, String secondUserName, int cardNum, byte pin) {
         Account bankAccount = new Account(firstUserName, secondUserName, cardNum, pin);
         bankAccount.setBalance(new BigDecimal(0));
         bankAccounts.add(bankAccount);
-        return bankAccounts;
     }
 
     //    print Accounts
-    public void printAccounts() {
-        for (Account acc : bankAccounts) {
-            System.out.println("-----------------------------------");
-            System.out.print("Name: " + acc.getFirstUserName() + " ");
-            System.out.println(acc.getSecondUserName());
-            System.out.println("Card number: " + acc.getCardNum());
-            System.out.println("Pin code: " + acc.getPin());
-            System.out.println("Cash: $" + acc.getBalance());
-            System.out.println("-----------------------------------");
-        }
-    }
+//    public void printAccounts() {
+//        for (Account acc : bankAccounts) {
+//            System.out.println("-----------------------------------");
+//            System.out.print("Name: " + acc.getFirstUserName() + " ");
+//            System.out.println(acc.getSecondUserName());
+//            System.out.println("Card number: " + acc.getCardNum());
+//            System.out.println("Pin code: " + acc.getPin());
+//            System.out.println("Balance: $" + acc.getBalance());
+//            System.out.println("-----------------------------------");
+//        }
+//    }
 
     //    printBankName
     public String printBankName() {
@@ -67,52 +56,49 @@ public class Bank {
         atm.setBank(this);
     }
 
-    public MenuContext incomeBalance(BigDecimal income, MenuContext userContext) {
-        menuContext = userContext;
-        userAccount = menuContext.getAuthUser();
+    public Account incomeBalance(BigDecimal income, Account userAccount) {
+        BigDecimal newBalance;
         newBalance = userAccount.getBalance();
         userAccount.setBalance(newBalance.add(income));
-        menuContext.setAccount(userAccount);
-        return menuContext;
+        return userAccount;
     }
 
-    public MenuContext stealBalance(BigDecimal steal, MenuContext userContext) {
-        menuContext = userContext;
-        userAccount = menuContext.getAuthUser();
+    public Optional<Account> stealBalance(BigDecimal steal, Account userAccount) {
+        BigDecimal newBalance;
         newBalance = userAccount.getBalance();
-        if (newBalance.compareTo(steal) == -1) {
-            System.out.println("Operation denied, low balance");
-            return menuContext;
+        if (newBalance.compareTo(steal) < 0 ) {
+            //System.out.println("Operation denied, low balance");
+            return Optional.empty();
         }
         userAccount.setBalance(newBalance.subtract(steal));
-        menuContext.setAccount(userAccount);
-        return menuContext;
+        return Optional.of(userAccount);
     }
 
-    public MenuContext transferAccount(int cardNumber,BigDecimal money,MenuContext userContext) {
-        menuContext = userContext;
+    public Optional<Account> transferAccount(int cardNumber, BigDecimal money, Account userAccount) {
+        Account clientAccount = null;
+
         for (Account acc : bankAccounts) {
-            if ((acc.getCardNum() == cardNumber)) {
+            if (acc.getCardNum() == cardNumber) {
                 clientAccount = acc;
             }
         }
 
-        clientBalance = clientAccount.getBalance();
-        System.out.println(clientAccount.getFirstUserName());
-        System.out.println(clientAccount.getBalance());
-        userAccount = menuContext.getAuthUser();
-        newBalance = userAccount.getBalance();
-        if (newBalance.compareTo(money) == -1) {
-            System.out.println("Operation denied, low balance");
-            return menuContext;
+        if (clientAccount == null) {
+            return Optional.empty();
+        }
+
+        BigDecimal clientBalance = clientAccount.getBalance();
+        BigDecimal newBalance = userAccount.getBalance();
+
+        if (newBalance.compareTo(money) < 0) {
+//            System.out.println("Operation denied, low balance");
+            return Optional.empty();
         }
 
         userAccount.setBalance(newBalance.subtract(money));
         clientAccount.setBalance(clientBalance.add(money));
         System.out.println("Transfer complete!");
-        menuContext.setAccount(userAccount);
-        return menuContext;
+        System.out.println("You have " + userAccount.getBalance());
+        return Optional.of(userAccount);
     }
 }
-
-

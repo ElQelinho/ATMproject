@@ -4,12 +4,12 @@ import com.example.ATM;
 
 import java.util.function.Supplier;
 
-public class Error implements Menu {
+public class ErrorMenu implements Menu {
 
     private final Supplier<? extends Menu> sup;
     private final String errorMessage;
 
-    public Error(String errorMessage, Supplier<? extends Menu> sup) {
+    public ErrorMenu(String errorMessage, Supplier<? extends Menu> sup) {
         this.errorMessage = errorMessage;
         this.sup = sup;
     }

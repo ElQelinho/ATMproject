@@ -4,7 +4,6 @@ import com.example.ATM;
 import com.example.Account;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
@@ -25,7 +24,6 @@ public class UserMenu implements Menu {
         BigDecimal steal;
         BigDecimal transferMoney;
         int transferCard;
-        Account transferAccount;
 
         System.out.println();
         System.out.println("Welcome "+ userAccount.getFirstUserName());
@@ -39,61 +37,38 @@ public class UserMenu implements Menu {
         try {
             System.out.print("Please enter your option: ");
             chooseOption = Integer.parseInt(enterReader.readLine());
-        } catch (IOException exception) {
-            String errorMessage = exception.getMessage();
-            return new Error(errorMessage, () -> new UserMenu(userContext));
-        }
+            System.out.println();
 
-        System.out.println();
-        switch (chooseOption) {
-            case 1:
-                System.out.println("Your balance is $" + userAccount.getBalance());
-                return new UserMenu(userContext);
-            case 2:
-                System.out.print("Enter money: ");
-                try {
+            switch (chooseOption) {
+                case 1:
+                    System.out.println("Your balance is $" + userAccount.getBalance());
+                    return new UserMenu(userContext);
+                case 2:
+                    System.out.print("Enter money: ");
                     income = new BigDecimal(enterReader.readLine());
-                } catch (IOException exception) {
-                    String errorMessage = exception.getMessage();
-                    return new Error(errorMessage, () -> new UserMenu(userContext));
-                }
-                userContext = atm.incomeBalance(income,userContext);
-                return new UserMenu(userContext);
-            case 3:
-                System.out.print("Balance to money: ");
-                try {
+                    atm.incomeBalance(income,userContext);
+                    return new UserMenu(userContext);
+                case 3:
+                    System.out.print("Balance to money: ");
                     steal = new BigDecimal(enterReader.readLine());
-                } catch (IOException exception) {
-                    String errorMessage = exception.getMessage();
-                    return new Error(errorMessage, () -> new UserMenu(userContext));
-                }
-                userContext = atm.stealBalance(steal,userContext);
-                return new UserMenu(userContext);
-            case 4:
-                System.out.print("Enter a client cardnumber: ");
-                try {
+                    atm.stealBalance(steal,userContext);
+                    return new UserMenu(userContext);
+                case 4:
+                    System.out.print("Enter a client cardnumber: ");
                     transferCard = Integer.parseInt(enterReader.readLine());
-                } catch (IOException exception) {
-                    String errorMessage = exception.getMessage();
-                    return new Error(errorMessage, () -> new UserMenu(userContext));
-                }
-
-                System.out.print("Enter a balance for transfer: ");
-                try {
+                    System.out.print("Enter a balance for transfer: ");
                     transferMoney = new BigDecimal(enterReader.readLine());
-                } catch (IOException exception) {
-                    String errorMessage = exception.getMessage();
-                    return new Error(errorMessage, () -> new UserMenu(userContext));
-                }
-
-                userContext = atm.transferBalance(transferCard,transferMoney,userContext);
-                return new UserMenu(userContext);
-
-            case 5:
-                return new MainMenu();
-            default:
-                String errorMessage = "Wrong value";
-                new Error(errorMessage, ()->new UserMenu(userContext));
+                    atm.transferBalance(transferCard,transferMoney,userContext);
+                    return new UserMenu(userContext);
+                case 5:
+                    return new MainMenu();
+                default:
+                    String errorMessage = "Wrong value";
+                    new ErrorMenu(errorMessage, ()->new UserMenu(userContext));
+            }
+        } catch (Exception exception) {
+            String errorMessage = exception.getMessage();
+            return new ErrorMenu(errorMessage, () -> new UserMenu(userContext));
         }
         return new Exit();
     }

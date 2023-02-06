@@ -8,13 +8,12 @@ import java.math.BigDecimal;
 
 public class ATM {
     private Bank bank;
-    private MenuContext returnContext;
-    Account returnAccount;
-    public boolean validateUser(Account autorizedUser) {
-        return autorizedUser != null;
+
+    public boolean validateUser(Account account) {
+        return account != null;
     }
 
-    public String retrievBankName() {
+    public String retrieveBankName() {
         return bank.printBankName();
     }
     public void setBank(Bank bank) {
@@ -38,18 +37,30 @@ public class ATM {
         }
     }
 
-    public MenuContext incomeBalance(BigDecimal income, MenuContext userContext) {
-        returnContext = bank.incomeBalance(income, userContext);
-        return returnContext;
+    public void incomeBalance(BigDecimal income, MenuContext userContext) {
+        bank.incomeBalance(income, userContext.getAuthUser());
     }
 
-    public MenuContext stealBalance(BigDecimal steal, MenuContext userContext) {
-        returnContext = bank.stealBalance(steal,userContext);
-        return returnContext;
+    public void stealBalance(BigDecimal steal, MenuContext userContext) throws Exception {
+        Account userAccount = userContext.getAuthUser();
+        var returnAccountOpt = bank.stealBalance(steal, userAccount);
+        if (returnAccountOpt.isPresent()) {
+            userContext.setAccount(returnAccountOpt.get());
+        } else {
+            String exStr = "Bank failure steal balance, you have " + userAccount.getBalance();
+            throw new Exception(exStr);
+        }
     }
 
-    public MenuContext transferBalance(int cardNumber, BigDecimal money,MenuContext userContext) {
-        returnContext = bank.transferAccount(cardNumber,money,userContext);
-        return returnContext;
+    public void transferBalance(int cardNumber, BigDecimal money, MenuContext userContext) throws Exception{
+        Account userAccount = userContext.getAuthUser();
+        var returnAccountOpt = bank.transferAccount(cardNumber, money, userAccount);
+
+        if (returnAccountOpt.isPresent()) {
+            userContext.setAccount(returnAccountOpt.get());
+        } else {
+            String exStr = "Bank failure steal balance, you have " + userAccount.getBalance();
+            throw new Exception(exStr);
+        }
     }
 }
