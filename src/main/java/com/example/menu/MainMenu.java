@@ -1,7 +1,6 @@
 package com.example.menu;
 
 import com.example.ATM;
-import com.example.Bank;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +12,7 @@ public class MainMenu implements Menu {
     public Menu processMenu(ATM atm) {
         int menuChoice;
         System.out.println();
-        System.out.println("Welcome! It is " + atm.retrievBankName());
+        System.out.println("Welcome! It is " + atm.retrieveBankName());
 
         BufferedReader enterReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -35,7 +34,7 @@ public class MainMenu implements Menu {
                 return new Exit();
             default:
                 String errorMessage = "Invalid menu number, given " + menuChoice + ", awaited 1 or 2.";
-                return new Error(errorMessage, ()->new MainMenu());
+                return new ErrorMenu(errorMessage, MainMenu::new);
         }
     }
 

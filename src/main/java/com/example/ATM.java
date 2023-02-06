@@ -1,24 +1,19 @@
 package com.example;
 
 
-import com.example.menu.Auth;
-import com.example.menu.MainMenu;
-import com.example.menu.Menu;
-import com.example.menu.UserMenu;
+import com.example.menu.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import java.math.BigDecimal;
 
 
 public class ATM {
     private Bank bank;
-    public boolean validateUser(Account autorizedUser) {
-        return autorizedUser != null;
+
+    public boolean validateUser(Account account) {
+        return account != null;
     }
 
-    public String retrievBankName() {
+    public String retrieveBankName() {
         return bank.printBankName();
     }
     public void setBank(Bank bank) {
@@ -39,6 +34,33 @@ public class ATM {
             return acc;
         } else {
             return null;
+        }
+    }
+
+    public void incomeBalance(BigDecimal income, MenuContext userContext) {
+        bank.incomeBalance(income, userContext.getAuthUser());
+    }
+
+    public void stealBalance(BigDecimal steal, MenuContext userContext) throws Exception {
+        Account userAccount = userContext.getAuthUser();
+        var returnAccountOpt = bank.stealBalance(steal, userAccount);
+        if (returnAccountOpt.isPresent()) {
+            userContext.setAccount(returnAccountOpt.get());
+        } else {
+            String exStr = "Bank failure steal balance, you have " + userAccount.getBalance();
+            throw new Exception(exStr);
+        }
+    }
+
+    public void transferBalance(int cardNumber, BigDecimal money, MenuContext userContext) throws Exception{
+        Account userAccount = userContext.getAuthUser();
+        var returnAccountOpt = bank.transferAccount(cardNumber, money, userAccount);
+
+        if (returnAccountOpt.isPresent()) {
+            userContext.setAccount(returnAccountOpt.get());
+        } else {
+            String exStr = "Bank failure steal balance, you have " + userAccount.getBalance();
+            throw new Exception(exStr);
         }
     }
 }
